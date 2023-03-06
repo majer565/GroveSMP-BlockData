@@ -1,0 +1,4 @@
+name: GroveSMP-BlockData
+version: '${project.version}'
+main: com.filipmajewski.grovesmpblockdata.GroveSMP_BlockData
+api-version: 1.19
