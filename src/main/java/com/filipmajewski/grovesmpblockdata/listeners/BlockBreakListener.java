@@ -1,4 +1,4 @@
-package com.filipmajewski.grovesmpblockdata.events;
+package com.filipmajewski.grovesmpblockdata.listeners;
 
 import com.filipmajewski.grovesmpblockdata.utils.BlockDataUtils;
 import org.bukkit.block.Block;
