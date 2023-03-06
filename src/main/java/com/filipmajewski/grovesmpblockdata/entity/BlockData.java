@@ -29,15 +29,19 @@ public class BlockData {
     @Column(name = "date")
     private String date;
 
+    @Column(name = "action")
+    private String action;
+
     public BlockData(){}
 
-    public BlockData(String uuid, int x_coord, int y_coord, int z_coord, String type, String date) {
+    public BlockData(String uuid, int x_coord, int y_coord, int z_coord, String type, String date, String action) {
         this.uuid = uuid;
         this.x_coord = x_coord;
         this.y_coord = y_coord;
         this.z_coord = z_coord;
         this.type = type;
         this.date = date;
+        this.action = action;
     }
 
     public int getId() {
@@ -66,5 +70,9 @@ public class BlockData {
 
     public String getDate() {
         return date;
+    }
+
+    public String getAction() {
+        return action;
     }
 }

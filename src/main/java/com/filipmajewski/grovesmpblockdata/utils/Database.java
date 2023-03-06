@@ -33,10 +33,10 @@ public class Database {
         return blockData;
     }
 
-    public void addBlockData(String uuid, int x, int y, int z, String type, String date) throws HibernateException{
+    public void addBlockData(String uuid, int x, int y, int z, String type, String date, String action) throws HibernateException{
         SessionFactory sessionFactory = configuration.buildSessionFactory();
         Session session = sessionFactory.openSession();
-        BlockData blockData = new BlockData(uuid, x, y, z, type, date);
+        BlockData blockData = new BlockData(uuid, x, y, z, type, date, action);
 
         session.beginTransaction();
         session.persist(blockData);

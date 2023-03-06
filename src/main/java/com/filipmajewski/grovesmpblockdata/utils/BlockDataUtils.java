@@ -57,15 +57,33 @@ public class BlockDataUtils {
         return date;
     }
 
-    public boolean saveBlockEvent(BlockEvent event) {
+    public boolean saveBlockEvent(BlockEvent event, Database database) {
         try {
             switch (event) {
-                case BREAK:
-                    //Add JDBC configuration
-                    break;
-                case PLACE:
-                    //Add JDBC configuration
-                    break;
+                case BREAK -> {
+                    database.addBlockData(
+                            this.player.getUniqueId().toString(),
+                            this.x_coords,
+                            this.y_coords,
+                            this.z_coords,
+                            this.date,
+                            this.blockMaterial.toString(),
+                            "BREAK"
+                    );
+                    return true;
+                }
+                case PLACE -> {
+                    database.addBlockData(
+                            this.player.getUniqueId().toString(),
+                            this.x_coords,
+                            this.y_coords,
+                            this.z_coords,
+                            this.date,
+                            this.blockMaterial.toString(),
+                            "PLACE"
+                    );
+                    return true;
+                }
             }
         } catch (Exception e) {
             return false;
