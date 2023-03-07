@@ -7,10 +7,11 @@ import org.bukkit.block.Block;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
+import org.hibernate.HibernateException;
 
 public class BlockBreakListener implements Listener {
 
-    private Database database;
+    private final Database database;
 
     public BlockBreakListener(Database database) {
         this.database = database;
@@ -19,16 +20,18 @@ public class BlockBreakListener implements Listener {
     @EventHandler
     public void onBlockBreak(BlockBreakEvent event) {
         Block block = event.getBlock();
-        BlockDataUtils data = new BlockDataUtils(
-                event.getPlayer(),
-                block.getType(),
-                block.getX(),
-                block.getY(),
-                block.getZ()
-        );
-
-        if(!data.saveBlockEvent(BlockDataUtils.BlockEvent.BREAK, database)) {
-            System.out.println(ChatColor.RED + "[BlockData] Error. Cannot add block data to database in BlockBreakListener");
+        try {
+            database.addBlockData(
+                    event.getPlayer().getUniqueId().toString(),
+                    block.getX(),
+                    block.getY(),
+                    block.getZ(),
+                    block.getType().toString(),
+                    BlockDataUtils.getCurrentDate(),
+                    BlockDataUtils.BlockEvent.BREAK.getAction()
+            );
+        } catch (HibernateException e) {
+            System.out.println(ChatColor.RED + "[BlockData] Error. Cannot add block data to database in BlockBreakListener" + ChatColor.RESET);
         }
     }
 
