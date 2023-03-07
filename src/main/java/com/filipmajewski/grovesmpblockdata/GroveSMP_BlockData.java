@@ -26,5 +26,6 @@ public final class GroveSMP_BlockData extends JavaPlugin {
     @Override
     public void onDisable() {
         // Plugin shutdown logic
+        database.closeSessionFactory();
     }
 }

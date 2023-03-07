@@ -31,6 +31,7 @@ public class BlockBreakListener implements Listener {
                     BlockDataUtils.BlockEvent.BREAK.getAction()
             );
         } catch (HibernateException e) {
+            e.printStackTrace();
             System.out.println(ChatColor.RED + "[BlockData] Error. Cannot add block data to database in BlockBreakListener" + ChatColor.RESET);
         }
     }

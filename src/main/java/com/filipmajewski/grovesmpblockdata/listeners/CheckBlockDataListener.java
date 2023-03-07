@@ -25,9 +25,9 @@ public class CheckBlockDataListener implements Listener {
 
     @EventHandler
     public void onBlockClick(PlayerInteractEvent event) {
-        ItemStack itemStack = event.getItem();
+        Player p = event.getPlayer();
+        ItemStack itemStack = p.getInventory().getItemInMainHand();
         if (itemStack.getType() == Material.STICK) {
-            Player p = event.getPlayer();
             Block block = event.getClickedBlock();
             List<BlockData> blockData = database.getBlockData(block.getX(), block.getY(), block.getZ());
             blockData.forEach(data -> {
