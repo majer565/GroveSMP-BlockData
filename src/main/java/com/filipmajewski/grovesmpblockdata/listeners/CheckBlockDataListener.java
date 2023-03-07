@@ -14,6 +14,7 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.List;
+import java.util.UUID;
 
 public class CheckBlockDataListener implements Listener {
 
@@ -37,7 +38,7 @@ public class CheckBlockDataListener implements Listener {
     }
 
     private String getBlockDataMessage(BlockData blockData) {
-        Player p = Bukkit.getPlayer(blockData.getUuid());
+        Player p = Bukkit.getPlayer(UUID.fromString(blockData.getUuid()));
         BlockDataUtils.BlockEvent event = BlockDataUtils.BlockEvent.valueOf(blockData.getAction());
         if (event == BlockDataUtils.BlockEvent.BREAK) {
             return ChatColor.DARK_GRAY + "[" +
