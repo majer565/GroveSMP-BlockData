@@ -10,6 +10,7 @@ import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 
@@ -26,14 +27,22 @@ public class CheckBlockDataListener implements Listener {
 
     @EventHandler
     public void onBlockClick(PlayerInteractEvent event) {
-        Player p = event.getPlayer();
-        ItemStack itemStack = p.getInventory().getItemInMainHand();
-        if (itemStack.getType() == Material.STICK) {
-            Block block = event.getClickedBlock();
-            List<BlockData> blockData = database.getBlockData(block.getX(), block.getY(), block.getZ());
-            blockData.forEach(data -> {
-                p.sendMessage(getBlockDataMessage(data));
-            });
+        if (event.getAction() == Action.RIGHT_CLICK_BLOCK) {
+            Player p = event.getPlayer();
+            ItemStack itemStack = p.getInventory().getItemInMainHand();
+            if (itemStack.getType() == Material.STICK) {
+                Block block = event.getClickedBlock();
+                List<BlockData> blockData = database.getBlockData(block.getX(), block.getY(), block.getZ());
+                p.sendMessage(
+                        ChatColor.DARK_GRAY + "-=-=-=-=-=-" +
+                           ChatColor.RED + "BlockData" +
+                           ChatColor.DARK_GRAY + "-=-=-=-=-=-" +
+                           ChatColor.RESET
+                );
+                blockData.forEach(data -> {
+                    p.sendMessage(getBlockDataMessage(data));
+                });
+            }
         }
     }
 
