@@ -40,6 +40,17 @@ public class Database {
         return blockData;
     }
 
+    public List<BlockData> getBlockData(int x, int y, int z, int limit) throws HibernateException {
+        String getBlockDataQuery = "FROM BlockData WHERE x_coord=" + x + " AND y_coord=" + y + " AND z_coord=" + z + "ORDER BY id DESC" ;
+        Session session = sessionFactory.openSession();
+        Query<BlockData> query = session.createQuery(getBlockDataQuery, BlockData.class).setMaxResults(limit);
+        List<BlockData> blockData = query.list();
+
+        session.close();
+
+        return blockData;
+    }
+
     public void addBlockData(String uuid, int x, int y, int z, String type, String date, String action) throws HibernateException{
         Session session = sessionFactory.openSession();
         BlockData blockData = new BlockData(uuid, x, y, z, type, date, action);

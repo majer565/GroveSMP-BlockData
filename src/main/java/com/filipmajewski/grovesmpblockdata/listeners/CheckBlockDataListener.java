@@ -12,8 +12,10 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
@@ -27,21 +29,24 @@ public class CheckBlockDataListener implements Listener {
 
     @EventHandler
     public void onBlockClick(PlayerInteractEvent event) {
-        if (event.getAction() == Action.RIGHT_CLICK_BLOCK) {
+        if (event.getAction() == Action.RIGHT_CLICK_BLOCK && event.getHand() == EquipmentSlot.HAND) {
             Player p = event.getPlayer();
             ItemStack itemStack = p.getInventory().getItemInMainHand();
             if (itemStack.getType() == Material.STICK) {
                 Block block = event.getClickedBlock();
-                List<BlockData> blockData = database.getBlockData(block.getX(), block.getY(), block.getZ());
-                p.sendMessage(
-                        ChatColor.DARK_GRAY + "-=-=-=-=-=-" +
-                           ChatColor.RED + "BlockData" +
-                           ChatColor.DARK_GRAY + "-=-=-=-=-=-" +
-                           ChatColor.RESET
-                );
-                blockData.forEach(data -> {
-                    p.sendMessage(getBlockDataMessage(data));
-                });
+                List<BlockData> blockData = database.getBlockData(block.getX(), block.getY(), block.getZ(), 100);
+                Collections.reverse(blockData);
+                if(!blockData.isEmpty()) {
+                    p.sendMessage(
+                            ChatColor.DARK_GRAY + "-=-=-=-=-=-=-=-=-=-=-" +
+                                    ChatColor.YELLOW + "BlockData" +
+                                    ChatColor.DARK_GRAY + "-=-=-=-=-=-=-=-=-=-=-" +
+                                    ChatColor.RESET
+                    );
+                    blockData.forEach(data -> {
+                        p.sendMessage(getBlockDataMessage(data));
+                    });
+                }
             }
         }
     }
@@ -51,18 +56,18 @@ public class CheckBlockDataListener implements Listener {
         BlockDataUtils.BlockEvent event = BlockDataUtils.BlockEvent.valueOf(blockData.getAction());
         if (event == BlockDataUtils.BlockEvent.BREAK) {
             return ChatColor.DARK_GRAY + "[" +
-                    ChatColor.RED + blockData.getDate() +
+                    ChatColor.DARK_AQUA + blockData.getDate() +
                     ChatColor.DARK_GRAY + "]: " +
-                    ChatColor.RED + p.getDisplayName() +
+                    ChatColor.DARK_AQUA + p.getDisplayName() +
                     ChatColor.YELLOW + " broke " +
-                    ChatColor.RED + blockData.getType();
+                    ChatColor.DARK_AQUA + blockData.getType();
         } else if (event == BlockDataUtils.BlockEvent.PLACE) {
             return ChatColor.DARK_GRAY + "[" +
-                    ChatColor.RED + blockData.getDate() +
+                    ChatColor.DARK_AQUA + blockData.getDate() +
                     ChatColor.DARK_GRAY + "]: " +
-                    ChatColor.RED + p.getDisplayName() +
+                    ChatColor.DARK_AQUA + p.getDisplayName() +
                     ChatColor.YELLOW + " placed " +
-                    ChatColor.RED + blockData.getType();
+                    ChatColor.DARK_AQUA + blockData.getType();
         }
         return "";
     }
